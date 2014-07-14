@@ -12,25 +12,25 @@ For the Processing program, you will need the Arduino up and running to execute 
 
 Changes:
 
-Cleaned up variable names
-Configured my stepper.
-Set up a ping/pong system so the Processing program knows when a step increment is done. We do this for non-jerky pictures.
-Created a separate Processing program to handle image->pointcloud handling. This sped up dev time.
-Added a variable to account for vertical placement of camera. Original project assumes a 0 degree inclination respect to platter. Mine is at an angle.
+     Cleaned up variable names
+     Configured my stepper.
+     Set up a ping/pong system so the Processing program knows when a step increment is done. We do this for non-jerky pictures.
+     Created a separate Processing program to handle image->pointcloud handling. This sped up dev time.
+     Added a variable to account for vertical placement of camera. Original project assumes a 0 degree inclination respect to platter. Mine is at an angle.
 
 Todo:
 
-Correct math for angled camera placement
-Better project box enclosure
-Implementation of 2 line lasers I bought for $2.50 each on ebay
-Find better camera than my Sony PS2 Eyetoy.
-Use Makerbot Digitizer technique of dual line lasers at x degrees from camera and -x degrees from camera and do a dual sweep.
-Make Processing programs Usable.
+     Correct math for angled camera placement
+     Better project box enclosure
+     Implementation of 2 line lasers I bought for $2.50 each on ebay
+     Find better camera than my Sony PS2 Eyetoy.
+     Use Makerbot Digitizer technique of dual line lasers at x degrees from camera and -x degrees from camera and do a dual sweep.
+     Make Processing programs Usable.
 
 Pie in the sky Todo:
 
-Camera calibration code, including lens calibration
-Possibly implement 2 cameras, with one at 0deg and other at 45deg.
-Laser calibration code
-Table Calibration code
-Use PCL library to output pointcloud OR STL
+     Camera calibration code, including lens calibration
+     Possibly implement 2 cameras, with one at 0deg and other at 45deg.
+     Laser calibration code
+     Table Calibration code
+     Use PCL library to output pointcloud OR STL
