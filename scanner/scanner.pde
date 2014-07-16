@@ -16,11 +16,10 @@ int iteration; //iteration
 float pixBright;
 // float maxBright=70; // brightness() reports highest of RGB, from 0-255 . This needs to be autotuned but I see that 70 works well for now.
 int maxBrightPos=0;
-int prevMaxBrightPos;     // Evidently only for the debug output variable
+int prevMaxBrightPos;
+int cntr=1;
 int row;
 int col;
-
-int laser_offset = 263 ; // float b below makes ASSUMPTION that laser is going to be in middle of webcam image. This compensates for that
 
 //scanner parameters
 float pics_per_rev = 120;  //number of phases profiling per revolution
@@ -34,8 +33,8 @@ float x, y, z;  //cartesian cords., [milimeter]
 float ro;  //first of polar coordinate, [milimeter]
 float fi; //second of polar coordinate, [radian]
 float b; //distance between brightest pixel and middle of photo [pixel]
-float pxmmpoz = 1.3; //pixels per milimeter horizontally 1px=0.2mm
-float pxmmpion = 1.3; //pixels per milimeter vertically 1px=0.2mm
+float pxmmpoz = 5; //pixels per milimeter horizontally 1px=0.2mm
+float pxmmpion = 5; //pixels per milimeter vertically 1px=0.2mm
 
 //================= CONFIG ===================
 
@@ -47,7 +46,16 @@ void setup() {
  
   //fonts
   f=createFont("Arial",16,true);
-
+   
+  //video conf.
+  video = new Capture(this, width, height);
+  video.start();
+ 
+  //Serial (COM) conf.
+  println(Serial.list());
+  myPort=new Serial(this, Serial.list()[0], 9600);
+//  myPort.write('L');
+  
   //output file
   output=createWriter("pointcloud.asc");  //the pointcloud gets outputted to pointcloud.asc
   
@@ -56,6 +64,35 @@ void setup() {
 //============== MAIN PROGRAM =================
 
 void draw() {
+
+  video.read();
+  image(video, 0, 0, width, height);
+  video.loadPixels();
+  delay(2000);
+  for (iteration=0;iteration<pics_per_rev;iteration++) {
+    video.read();
+    image(video, 0, 0, width, height);
+    video.loadPixels();
+    for (int n=0;n<video.width*video.height;n++){
+        video.pixels[n]=video.pixels[n];
+        }
+    video.updatePixels();
+    set(20,20,video);
+    String file_name="raw_image-"+nf(iteration+1, 3)+".png";
+    video.save(file_name);
+    turn_platter();
+    
+      }
+    
+  turn_platter();
+  line_processor();
+  noLoop(); 
+}
+
+//============== Line Calculator =================
+
+
+void line_processor(){
   for (iteration=0; iteration<pics_per_rev; iteration++){
    
     String file_name="raw_image-"+nf(iteration+1, 3)+".png";
@@ -87,9 +124,9 @@ void draw() {
       ro=(b/sin(angle_laser_camera));
       //output.println(b + ", " + prevMaxBrightPos + ", " + maxBrightPos); //I used this for debugging
      
-      x=ro * cos(fi);  //changing polar coords to kartesian
+      x=ro * cos(fi);  //changing polar coords to cartesian
       y=ro * sin(fi);
-      z=row/pxmmpion;
+      z=row ;
      
       if( (ro>=-30) && (ro<=60) ){ //printing coordinates
         output.println(x + "," + y + "," + z);
@@ -103,9 +140,15 @@ void draw() {
   }
   output.flush();
   output.close();
-
-  noLoop(); 
 }
 
 
+
+void turn_platter() {  //sending command to turn
+  myPort.write('F');
+  int finish = 0 ;   // Serves as the delay. Arduino sens period when stepper command is done.
+    while (finish != '.' ) {
+          finish = myPort.read(); }
+  }
+  
 
