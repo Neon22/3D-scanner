@@ -33,8 +33,8 @@ float x, y, z;  //cartesian cords., [milimeter]
 float ro;  //first of polar coordinate, [milimeter]
 float fi; //second of polar coordinate, [radian]
 float b; //distance between brightest pixel and middle of photo [pixel]
-float pxmmpoz = 5; //pixels per milimeter horizontally 1px=0.2mm
-float pxmmpion = 5; //pixels per milimeter vertically 1px=0.2mm
+float pxmmpoz = 20; //pixels per milimeter horizontally 1px=0.2mm
+float pxmmpion = 15; //pixels per milimeter vertically 1px=0.2mm
 
 //================= CONFIG ===================
 
