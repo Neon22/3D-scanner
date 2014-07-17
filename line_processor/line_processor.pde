@@ -20,22 +20,22 @@ int prevMaxBrightPos;     // Evidently only for the debug output variable
 int row;
 int col;
 
-int laser_offset = 263 ; // float b below makes ASSUMPTION that laser is going to be in middle of webcam image. This compensates for that
+int laser_offset = 317 ; // float b below makes ASSUMPTION that laser is going to be in middle of webcam image. This compensates for that
 
 //scanner parameters
 float pics_per_rev = 120;  //number of phases profiling per revolution
-float angle_laser_camera = 66*PI/360;  //angle between laser and camera [radian]
+float angle_laser_camera = 35*2*PI/360;  //angle between laser and camera [radian]  Mine is 35 deg.
 float angle_per_step = 2*PI/pics_per_rev;  //angle between 2 profiles [radian]
-float vertical_camera_angle = PI/3 ; // vertical angle of camera incident to turntable [radian]
-float turntable_center = 250 ;  // This defines the column which the center of the turntable is
+float vertical_camera_angle = -25*2*PI/360 ; // vertical angle of camera incident to turntable [radian]
+float turntable_center = 320 ;  // 284 This defines the column which the center of the turntable is
 
 //coordinates
 float x, y, z;  //cartesian cords., [milimeter]
 float ro;  //first of polar coordinate, [milimeter]
 float fi; //second of polar coordinate, [radian]
 float b; //distance between brightest pixel and middle of photo [pixel]
-float pxmmpoz = 20; //pixels per milimeter horizontally 1px=0.2mm
-float pxmmpion = 15; //pixels per milimeter vertically 1px=0.2mm
+float pxmmpoz = 13; //pixels per milimeter horizontally 1px=0.2mm
+float pxmmpion = 13; //pixels per milimeter vertically 1px=0.2mm
 
 //================= CONFIG ===================
 
