@@ -22,8 +22,8 @@ int col;
 float pics_per_rev = 120;  //number of phases profiling per revolution
 float angle_per_step = 2*PI/pics_per_rev;  //angle between 2 profiles [radian]
 float cam_angle = .96363 ;  // the angle measured from vertical to the platter laser line. [radians]
-float turntable_center_horizontal = 320 ;  // Use GIMP to determine this X of center platter (first # near bottom)
-float turntable_center_vertical = 368 ;    // Use GIMP to determine this Y of center platter (second # near bottom)
+float turntable_center_horizontal = 258 ;  // Use GIMP to determine this X of center platter (first # near bottom)
+float turntable_center_vertical = 373 ;    // Use GIMP to determine this Y of center platter (second # near bottom)
 
 //coordinates
 float x, y, z;  //cartesian cords., [milimeter]
