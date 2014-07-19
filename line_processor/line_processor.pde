@@ -24,6 +24,10 @@ float angle_per_step = 2*PI/pics_per_rev;  //angle between 2 profiles [radian]
 float cam_angle = .96363 ;  // the angle measured from vertical to the platter laser line. [radians]
 float turntable_center_horizontal = 258 ;  // Use GIMP to determine this X of center platter (first # near bottom)
 float turntable_center_vertical = 373 ;    // Use GIMP to determine this Y of center platter (second # near bottom)
+float camera_x_mod = 1.3;  // pixels per millimeter for horizontal
+float camera_y_mod = 1.3;  // pixels per millimeter for vertical
+                           // Use the enclosed checkerboard and then take picture. Then count how px for each and divide by 10 (10mm sq.)
+
 
 //coordinates
 float x, y, z;  //cartesian cords., [milimeter]
@@ -93,8 +97,8 @@ void draw() {
 
 
 void XYZ_calculate(int current_col, int current_row, int current_iteration) {
-  x = (current_col + 1 - turntable_center_horizontal)/( sin(cam_angle) ) * sin(angle_per_step * current_iteration) ;
-  y = (current_col + 1 - turntable_center_horizontal)/( sin(cam_angle) ) * cos(angle_per_step * current_iteration) ;
+  x = camera_x_mod*(current_col + 1 - turntable_center_horizontal)/( sin(cam_angle) ) * sin(angle_per_step * current_iteration) ;
+  y = -1*camera_y_mod*((current_col + 1 - turntable_center_horizontal)/( sin(cam_angle) ) * cos(angle_per_step * current_iteration)) ;
   z = ( (turntable_center_vertical - current_row) - ((current_col - turntable_center_horizontal)/(tan(-cam_angle))));  
   output.println(x + "," + y + "," + z);
 }
