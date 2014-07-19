@@ -14,28 +14,21 @@ color white=color(255);
 //variables
 int iteration; //iteration
 float pixBright;
-// float maxBright=70; // brightness() reports highest of RGB, from 0-255 . This needs to be autotuned but I see that 70 works well for now.
 int maxBrightPos=0;
-int prevMaxBrightPos;     // Evidently only for the debug output variable
 int row;
 int col;
 
-int laser_offset = 317 ; // float b below makes ASSUMPTION that laser is going to be in middle of webcam image. This compensates for that
-
 //scanner parameters
 float pics_per_rev = 120;  //number of phases profiling per revolution
-float angle_laser_camera = 35*2*PI/360;  //angle between laser and camera [radian]  Mine is 35 deg.
 float angle_per_step = 2*PI/pics_per_rev;  //angle between 2 profiles [radian]
-float vertical_camera_angle = -25*2*PI/360 ; // vertical angle of camera incident to turntable [radian]
-float turntable_center = 320 ;  // 284 This defines the column which the center of the turntable is
+float cam_angle = .96363 ;  // the angle measured from vertical to the platter laser line. [radians]
+float turntable_center_horizontal = 320 ;  // Use GIMP to determine this X of center platter (first # near bottom)
+float turntable_center_vertical = 368 ;    // Use GIMP to determine this Y of center platter (second # near bottom)
 
 //coordinates
 float x, y, z;  //cartesian cords., [milimeter]
-float ro;  //first of polar coordinate, [milimeter]
-float fi; //second of polar coordinate, [radian]
-float b; //distance between brightest pixel and middle of photo [pixel]
-float pxmmpoz = 13; //pixels per milimeter horizontally 1px=0.2mm
-float pxmmpion = 13; //pixels per milimeter vertically 1px=0.2mm
+// float pxmmpoz = 13; //pixels per milimeter horizontally 1px=0.2mm
+// float pxmmpion = 13; //pixels per milimeter vertically 1px=0.2mm
 
 //================= CONFIG ===================
 
@@ -65,38 +58,28 @@ void draw() {
     scan.loadPixels();
     line_image.loadPixels();
     int currentPos;
-    fi=iteration*angle_per_step;
-    println(fi);
+    println(iteration * (360/pics_per_rev));
+    output.println("// image  " + nf(iteration+1, 3) );
 
     for(row=0; row<scan.height; row++){  //starting row analysis
-    maxBrightPos=0;
-    float maxBright = 70; // have to set this down here, no clue why
+      maxBrightPos=0;
+      float maxBright = 70; // have to set this down here, no clue why
       for(col=0; col<scan.width; col++){
         currentPos = row * scan.width + col;
         pixBright=green(scan.pixels[currentPos]);
         if(pixBright>maxBright){
           maxBright=pixBright;
-          maxBrightPos=currentPos;
-        }
+          maxBrightPos=currentPos;   }
         line_image.pixels[currentPos]=black; //setting all pixels black
       }
-     
       line_image.pixels[maxBrightPos]=white; //setting brightest pixel white
-     
-      b=( ( (maxBrightPos+1-row*scan.width)-turntable_center)/cos(vertical_camera_angle) ) /pxmmpoz;
-      ro=(b/sin(angle_laser_camera));
-      //output.println(b + ", " + prevMaxBrightPos + ", " + maxBrightPos); //I used this for debugging
-     
-      x=ro * cos(fi);  //changing polar coords to kartesian
-      y=ro * sin(fi);
-      z=row/pxmmpion;
-     
-      if( (ro>=-30) && (ro<=60) ){ //printing coordinates
-        output.println(x + "," + y + "," + z);
+      
+      if(maxBrightPos!=0) {
+        XYZ_calculate( (maxBrightPos - (scan.width*row)) , (row), iteration);
       }
-     
+      
     }//end of row analysis
-   
+
     line_image.updatePixels();
     line_image.save(file_name2);
    
@@ -108,4 +91,11 @@ void draw() {
 }
 
 
+
+void XYZ_calculate(int current_col, int current_row, int current_iteration) {
+  x = (current_col + 1 - turntable_center_horizontal)/( sin(cam_angle) ) * sin(angle_per_step * current_iteration) ;
+  y = (current_col + 1 - turntable_center_horizontal)/( sin(cam_angle) ) * cos(angle_per_step * current_iteration) ;
+  z = ( (turntable_center_vertical - current_row) - ((current_col - turntable_center_horizontal)/(tan(-cam_angle))));  
+  output.println(x + "," + y + "," + z);
+}
 
