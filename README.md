@@ -9,6 +9,28 @@ If you want to use these programs, you will need the Arduino IDE (for compiling 
 For the Processing program, you will need the Arduino up and running to execute the 3d-scanner. I set up the line_processor as a stand-alone. Just dump the sample images with the program and run it in Processing. It doesnt display content, but it does generate line drawings for each image, and generates a pointcloud file that MeshLab can read.
 
 
+Changes 20 July 2014:
+
+     Correct math for angled camera placement - Mostly correct
+     Found better camera than my Sony PS2 Eyetoy. I was gifted a Logitech HD webcam!
+     More sample data in /3D-scanner/sample_images/
+
+Todo:
+
+     Better project box enclosure
+     Implementation of 2 line lasers I bought for $2.50 each on ebay
+     Use Makerbot Digitizer technique of dual line lasers at x degrees from camera and -x degrees from camera and do a dual sweep.
+     Make Processing programs Usable.
+     Include circuit diagrams, per user's requests.
+     Figure out technique to include color data with depth data
+     Currently looking in Java for multiplatform and nice GUI options
+     Implement a GCode-like system for the 3D scanner arduino hardware ~ looking at Fabscan arduino code..
+
+
+______________________________________________________________________
+Initial Changes:
+
+
 
 Changes:
 

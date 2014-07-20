@@ -22,11 +22,11 @@ int row;
 int col;
 
 //scanner parameters
-float pics_per_rev = 120;  //number of phases profiling per revolution
+float pics_per_rev = 480;  //number of phases profiling per revolution
 float angle_per_step = 2*PI/pics_per_rev;  //angle between 2 profiles [radian]
 float cam_angle = .96363 ;  // the angle measured from vertical to the platter laser line. [radians]
-float turntable_center_horizontal = 258 ;  // Use GIMP to determine this X of center platter (first # near bottom)
-float turntable_center_vertical = 373 ;    // Use GIMP to determine this Y of center platter (second # near bottom)
+float turntable_center_horizontal = 245 ;  // Use GIMP to determine this X of center platter (first # near bottom)
+float turntable_center_vertical = 370 ;    // Use GIMP to determine this Y of center platter (second # near bottom)
 float camera_x_mod = 1.3;  // pixels per millimeter for horizontal
 float camera_y_mod = 1.3;  // pixels per millimeter for vertical
                            // Use the enclosed checkerboard and then take picture. Then count how px for each and divide by 10 (10mm sq.)
@@ -36,8 +36,6 @@ float camera_y_mod = 1.3;  // pixels per millimeter for vertical
 
 //coordinates
 float x, y, z;  //cartesian cords., [milimeter]
-//float pxmmpoz = 20; //pixels per milimeter horizontally 1px=0.2mm
-//float pxmmpion = 15; //pixels per milimeter vertically 1px=0.2mm
 
 //================= CONFIG ===================
 

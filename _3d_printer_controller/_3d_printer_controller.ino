@@ -20,12 +20,12 @@ void loop() {
     incomingByte = Serial.read();
     
     if (incomingByte == 'F') {
-      mitsumi.step(128);             // F is forward 
+      mitsumi.step(32);             // F is forward ~ 128 is 3deg on the big platter
       Serial.print('.');
     }
     
     if (incomingByte == 'R') { 
-      mitsumi.step(-128);            //R is reverse
+      mitsumi.step(-32);            //R is reverse
       Serial.print('.');
       }
       
